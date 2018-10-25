@@ -7,7 +7,9 @@ import com.ushakov.ioc.reader.xml.XmlBeanDefinitionReader;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClassPathApplicationContext implements ApplicationContext {
     private List<BeanDefinition> beanDefinitions;
@@ -72,4 +74,10 @@ public class ClassPathApplicationContext implements ApplicationContext {
 
         return beanNames;
     }
+
+    @Override
+    public List<BeanDefinition> getBeanDefinitions() {
+        return beanDefinitions;
+    }
+
 }
