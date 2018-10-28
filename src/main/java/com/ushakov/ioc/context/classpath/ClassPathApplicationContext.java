@@ -1,7 +1,10 @@
 package com.ushakov.ioc.context.classpath;
 
 import com.ushakov.ioc.context.ApplicationContext;
+import com.ushakov.ioc.entity.Bean;
 import com.ushakov.ioc.entity.BeanDefinition;
+import com.ushakov.ioc.processor.BeanDefinitionsProcessor;
+import com.ushakov.ioc.processor.DefaultBeanDefinitionsProcessor;
 import com.ushakov.ioc.reader.BeanDefinitionReader;
 import com.ushakov.ioc.reader.xml.XmlBeanDefinitionReader;
 
@@ -14,18 +17,23 @@ import java.util.Map;
 public class ClassPathApplicationContext implements ApplicationContext {
     private List<BeanDefinition> beanDefinitions;
     private BeanDefinitionReader beanDefinitionReader;
+    private BeanDefinitionsProcessor beanDefinitionsProcessor;
+    private List<Bean> beans;
 
     private void init() {
         beanDefinitions = beanDefinitionReader.getBeanDefinitions();
+        beans = beanDefinitionsProcessor.processDefinitions(beanDefinitions);
     }
 
-    public ClassPathApplicationContext(String path) {
+    public ClassPathApplicationContext(String path, BeanDefinitionsProcessor beanDefinitionsProcessor) {
         beanDefinitionReader = new XmlBeanDefinitionReader(path);
+        this.beanDefinitionsProcessor = beanDefinitionsProcessor;
         init();
     }
 
-    public ClassPathApplicationContext(InputStream inputStream) {
+    public ClassPathApplicationContext(InputStream inputStream, BeanDefinitionsProcessor beanDefinitionsProcessor) {
         beanDefinitionReader = new XmlBeanDefinitionReader(inputStream);
+        this.beanDefinitionsProcessor = beanDefinitionsProcessor;
         init();
     }
 
